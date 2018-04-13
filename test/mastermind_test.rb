@@ -1,5 +1,5 @@
 require './test/test_helper'
-require './lib/mastermind'
+require './lib/mastermind_for_testing'
 
 class MastermindTest < Minitest::Test
 
@@ -43,6 +43,6 @@ class MastermindTest < Minitest::Test
 
     positions = mastermind.compare_positions(mastermind.answer)
 
-    assert_equal 3, positions 
+    assert_equal 3, positions
   end
 end

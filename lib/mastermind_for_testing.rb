@@ -8,6 +8,8 @@ class Mastermind
   def initialize
     @template     = ['r','g','b','y']
     @random_array = []
+    @test_array   = ['r','y','g','b']
+    @answer       = ['r','y','y','b']
   end
 
   def generate_random_array
@@ -19,7 +21,7 @@ class Mastermind
   def compare_elements(answer)
     counter = 0
     answer.uniq.each do |color|
-      if random_array.include?(color)
+      if test_array.include?(color)
         counter += 1
       end
     end
@@ -29,7 +31,7 @@ class Mastermind
   def compare_positions(answer)
     counter = 0
     answer.each_index do |i|
-      if random_array[i] == answer[i]
+      if test_array[i] == answer[i]
         counter += 1
       end
     end

@@ -1,9 +1,10 @@
 require './lib/mastermind'
 class MastermindRunner
 
+  attr_reader :game
+
   def initialize
-    @template     = ['r','g','b','y']
-    @game_array   = []
+    @game = Mastermind.new
   end
 
   def init_game
@@ -13,14 +14,16 @@ class MastermindRunner
     >'
 
     decision = gets.chomp
+
     if decision == 'q'
-    puts "goodbye"
+      puts "goodbye"
     else
-    player_decision(decision)
+      player_decision(decision)
     end
   end
 
   def player_decision(decision)
+    game.generate_random_array
 
     if decision == 'i'
     puts 'Mastermind is a game where you will attempt to determine
@@ -29,29 +32,40 @@ class MastermindRunner
       ex.1 rrgb
       ex.2 rbgy
       as you can see the colors can be repeated. You get as many attempts
-      as you would like and you will be given clues along the way.'
-    end
+      as you would like and you will be given clues along the way.
 
-    if decision == 'p'
+      If you would like to continue (y)es or (n)o?'
 
-    mastermind.generate_random_array
-    binding.pry
+      continue = gets.chomp.downcase
+        if continue == 'y'
+
+        elsif continue == 'n'
+          puts "gopodbye"
+        end
+
+    elsif decision == 'p'
+
     puts "I have generated a beginner sequence with four elements made up of:
     (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the
     game. What's your guess?"
 
     answer = gets.chomp
-
-    player_input_2(answer)
+      if answer == 'c'
+        puts "#{game.random_array.join}"
+      elsif
+        game_play(answer)
+      end
     end
   end
 
-  def player_input_2(gamer_guess)
-    game = Mastermind.new
-    x = game.compare_elements(gamer_guess)
-    puts "You have #{x} elements correct."
+  def game_play(answer)
+    x = game.compare_elements(answer)
+    y = game.compare_positions(answer)
+    puts " has #{x} of the correct elements with #{y} in the correct positions
+         You've taken #{} guess"
   end
 end
 
-game = MastermindRunner.new
-game.init_game
+
+mastermind = MastermindRunner.new
+mastermind.init_game
