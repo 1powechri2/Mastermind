@@ -16,6 +16,10 @@ class Mastermind
     end
   end
 
+  def user_guess_to_array(guess)
+    guess.split("")
+  end
+
   def compare_elements(answer)
     counter = 0
     answer.uniq.each do |color|

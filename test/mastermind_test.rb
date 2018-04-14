@@ -30,6 +30,15 @@ class MastermindTest < Minitest::Test
     assert mastermind.template != mastermind.random_array
   end
 
+  def test_input_string_to_array
+    mastermind = Mastermind.new
+
+    actual = mastermind.user_guess_to_array('rrby')
+    expected = ['r','r','b','y']
+
+    assert_equal expected, actual
+  end
+
   def test_compare_matching_elements
     mastermind = Mastermind.new
 

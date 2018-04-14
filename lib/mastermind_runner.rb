@@ -1,10 +1,13 @@
 require './lib/mastermind'
+
 class MastermindRunner
 
   attr_reader :game
 
   def initialize
     @game = Mastermind.new
+    @mastermind_array = game.generate_random_array
+    @game_counter = 0
   end
 
   def init_game
@@ -17,13 +20,14 @@ class MastermindRunner
 
     if decision == 'q'
       puts "goodbye"
-    else
-      player_decision(decision)
+    elsif decision == 'i'
+      player_decision_i(decision)
+    elsif decision == 'p'
+      player_decision_p(decision)
     end
   end
 
-  def player_decision(decision)
-    game.generate_random_array
+  def player_decision_i(decision)
 
     if decision == 'i'
     puts 'Mastermind is a game where you will attempt to determine
@@ -37,35 +41,48 @@ class MastermindRunner
       If you would like to continue (y)es or (n)o?'
 
       continue = gets.chomp.downcase
+
         if continue == 'y'
-
+          puts "make your guess"
+            answer = gets.chomp
+            game_play(answer)
         elsif continue == 'n'
-          puts "gopodbye"
+          puts "goodbye"
         end
+      end
+    end
 
-    elsif decision == 'p'
+    def player_decision_p(decision)
 
     puts "I have generated a beginner sequence with four elements made up of:
     (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the
     game. What's your guess?"
 
     answer = gets.chomp
+
       if answer == 'c'
         puts "#{game.random_array.join}"
       elsif
         game_play(answer)
       end
     end
-  end
 
   def game_play(answer)
-    x = game.compare_elements(answer)
-    y = game.compare_positions(answer)
-    puts " has #{x} of the correct elements with #{y} in the correct positions
-         You've taken #{} guess"
+    player_array = game.user_guess_to_array(answer)
+    heck_yes = player_array
+    while @mastermind_array != player_array
+      z = @game_counter += 1
+      x = game.compare_elements(heck_yes)
+      y = game.compare_positions(heck_yes)
+      puts "You have guessed #{x} of the correct elements
+            with #{y} in the correct positions You've taken
+            #{z} guesses"
+      again = gets.chomp
+      game_play(again)
+    end
+    puts "Congradulations, You are a mastermind!"
   end
 end
-
 
 mastermind = MastermindRunner.new
 mastermind.init_game
