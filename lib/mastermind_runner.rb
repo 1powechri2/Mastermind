@@ -1,50 +1,40 @@
 require './lib/mastermind'
+require './lib/prompts'
+require 'pry'
 
 class MastermindRunner
-
+  include Prompts
   attr_reader :game
 
   def initialize
     @game = Mastermind.new
-    @mastermind_array = game.generate_random_array
+    game.generate_random_array
     @game_counter = 0
   end
 
   def init_game
-    puts 'Welcome to MASTERMIND
+    puts message_1
+    selection = gets.chomp
+    player_decision(selection)
+  end
 
-    Would you like to (p)lay, read the (i)nstructions, or (q)uit?
-    >'
-
-    decision = gets.chomp
-
-    if decision == 'q'
+  def player_decision(selection)
+    if selection == 'q'
       puts "goodbye"
-    elsif decision == 'i'
-      player_decision_i(decision)
-    elsif decision == 'p'
-      player_decision_p(decision)
+    elsif selection == 'i'
+      player_decision_i(selection)
+    elsif selection == 'p'
+      player_decision_p(selection)
     end
   end
 
   def player_decision_i(decision)
-
     if decision == 'i'
-    puts 'Mastermind is a game where you will attempt to determine
-      the exact order of a sequence of four colors. The colors are red,
-      blue, green and yellow and will be ordered as in these examples:
-      ex.1 rrgb
-      ex.2 rbgy
-      as you can see the colors can be repeated. You get as many attempts
-      as you would like and you will be given clues along the way.
-
-      If you would like to continue (y)es or (n)o?'
-
-      continue = gets.chomp.downcase
-
+      puts message_2
+      continue = gets.chomp
         if continue == 'y'
           puts "make your guess"
-            answer = gets.chomp
+            answer = gets.chomp.downcase
             game_play(answer)
         elsif continue == 'n'
           puts "goodbye"
@@ -53,15 +43,13 @@ class MastermindRunner
     end
 
     def player_decision_p(decision)
-
-    puts "I have generated a beginner sequence with four elements made up of:
-    (r)ed, (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the
-    game. What's your guess?"
-
+    puts message_3
     answer = gets.chomp
-
       if answer == 'c'
+        puts message_4
         puts "#{game.random_array.join}"
+        cheat = gets.chomp.downcase
+        game_play(cheat)
       elsif
         game_play(answer)
       end
@@ -69,16 +57,11 @@ class MastermindRunner
 
   def game_play(answer)
     player_array = game.user_guess_to_array(answer)
-    heck_yes = player_array
-
-
-    while @mastermind_array != player_array
+    while game.random_array != player_array
       z = @game_counter += 1
-      x = game.compare_elements(heck_yes)
-      y = game.compare_positions(heck_yes)
-      puts "You have guessed #{x} of the correct elements
-            with #{y} in the correct positions You've taken
-            #{z} guesses"
+      x = game.compare_elements(player_array)
+      y = game.compare_positions(player_array)
+      puts message_5(x,y,z)
       again = gets.chomp
       game_play(again)
     end
