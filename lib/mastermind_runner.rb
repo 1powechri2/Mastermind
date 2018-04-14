@@ -62,6 +62,7 @@ class MastermindRunner
 
       if answer == 'c'
         puts "#{game.random_array.join}"
+        game_play(answer)
       elsif
         game_play(answer)
       end
@@ -70,7 +71,7 @@ class MastermindRunner
   def game_play(answer)
     player_array = game.user_guess_to_array(answer)
     heck_yes = player_array
-    while @mastermind_array != player_array
+    until @mastermind_array != player_array
       z = @game_counter += 1
       x = game.compare_elements(heck_yes)
       y = game.compare_positions(heck_yes)
