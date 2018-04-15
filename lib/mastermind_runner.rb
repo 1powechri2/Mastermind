@@ -1,15 +1,15 @@
 require './lib/mastermind'
 require './lib/prompts'
-require 'pry'
 
 class MastermindRunner
   include Prompts
   attr_reader :game
 
   def initialize
-    @game = Mastermind.new
-    game.generate_random_array
+    @game         = Mastermind.new
+    @init_time    = Time.now
     @game_counter = 0
+    game.generate_random_array
   end
 
   def init_game
@@ -22,52 +22,45 @@ class MastermindRunner
     if selection == 'q'
       puts "goodbye"
     elsif selection == 'i'
-      player_decision_i(selection)
-    elsif selection == 'p'
-      player_decision_p(selection)
-    end
-  end
-
-  def player_decision_i(decision)
-    if decision == 'i'
       puts message_2
       continue = gets.chomp
-        if continue == 'y'
-          puts "make your guess"
-            answer = gets.chomp.downcase
-            game_play(answer)
-        elsif continue == 'n'
-          puts "goodbye"
-        end
+      if continue == 'y'
+        puts "make your guess"
+          answer = gets.chomp.downcase
+          game_play(answer)
+      elsif continue == 'n'
+        puts "goodbye"
       end
+    elsif selection == 'p'
+        puts message_3
+        selection = gets.chomp
+        player_decision_p(selection)
     end
+  end
 
-    def player_decision_p(decision)
-    puts message_3
-    answer = gets.chomp
-      if answer == 'c'
-        puts message_4
-        puts "#{game.random_array.join}"
-        cheat = gets.chomp.downcase
-        game_play(cheat)
-      elsif
-        game_play(answer)
-      end
+  def player_decision_p(decision)
+    if decision == 'c'
+      puts message_4
+      puts "#{game.random_array.join}"
+      cheat = gets.chomp.downcase
+      game_play(cheat)
+    elsif
+      game_play(decision)
     end
+  end
 
-  def game_play(answer)
-    player_array = game.user_guess_to_array(answer)
-    while game.random_array != player_array
-      z = @game_counter += 1
-      x = game.compare_elements(player_array)
-      y = game.compare_positions(player_array)
+  def game_play(decision)
+    player_array = game.user_guess_to_array(decision)
+    x = game.compare_elements(player_array)
+    y = game.compare_positions(player_array)
+      if game.random_array != player_array
+      z = (@game_counter += 1)
       puts message_5(x,y,z)
-      again = gets.chomp
-      game_play(again)
+      repeat = gets.chomp
+      player_decision_p(repeat)
     end
-    puts "Congradulations, You are a mastermind!"
+    finish_time = Time.now
+    puts "Congradulations, You are a mastermind!
+          you finished in #{finish_time - @init_time}"
   end
 end
-
-mastermind = MastermindRunner.new
-mastermind.init_game
