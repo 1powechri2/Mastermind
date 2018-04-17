@@ -9,6 +9,7 @@ class MastermindRunner
     @game         = Mastermind.new
     @init_time    = Time.now
     @game_counter = 0
+    @player_guess = nil
     game.generate_random_array
   end
 
@@ -27,14 +28,14 @@ class MastermindRunner
       if continue == 'y'
         puts "make your guess"
           answer = gets.chomp.downcase
-          game_play(answer)
+          load_the_player(answer)
       elsif continue == 'n'
         puts "goodbye"
       end
     elsif selection == 'p'
         puts message_3
-        selection = gets.chomp
-        player_decision_p(selection)
+        @player_guess = gets.chomp
+        player_decision_p(@player_guess)
     end
   end
 
@@ -42,25 +43,33 @@ class MastermindRunner
     if decision == 'c'
       puts message_4
       puts "#{game.random_array.join}"
-      cheat = gets.chomp.downcase
-      game_play(cheat)
+      @player_guess = gets.chomp.downcase
+      load_the_player(@player_guess)
     elsif
-      game_play(decision)
+      load_the_player(decision)
     end
   end
 
-  def game_play(decision)
-    player_array = game.user_guess_to_array(decision)
+  def load_the_player(guess)
+    player_array = game.user_guess_to_array(guess)
+    game_play(player_array)
+  end
+
+def game_play(player_array)
+    @game_counter += 1
     x = game.compare_elements(player_array)
     y = game.compare_positions(player_array)
-      if game.random_array != player_array
-      z = (@game_counter += 1)
-      puts message_5(x,y,z)
-      repeat = gets.chomp
-      player_decision_p(repeat)
+    puts message_5(x,y,@game_counter)
+    if game.random_array != player_array
+      @player_guess = gets.chomp
+      load_the_player(@player_guess)
+    else
+       finish_time = Time.now
+      puts "Congradulations, You are a mastermind!
+          you finished in #{(finish_time - @init_time)/60} minutes"
     end
-    finish_time = Time.now
-    puts "Congradulations, You are a mastermind!
-          you finished in #{finish_time - @init_time}"
   end
 end
+
+awesome = MastermindRunner.new
+awesome.init_game
