@@ -12,6 +12,9 @@ class Mastermind
 
   def generate_random_array
     while random_array.length < 4
+      # Possibly move this up to initialize
+      # I would continue using the @ in front of instance variables
+      # It is a bit less confusing (for me) that way.
       random_array << template.sample
     end
   end

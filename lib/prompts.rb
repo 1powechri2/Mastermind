@@ -1,4 +1,8 @@
 module Prompts
+# Good use of a module.
+# What is the difference between a module and a class?
+
+# Improve variable names
 
   def message_1
     'Welcome to MASTERMIND
@@ -31,6 +35,7 @@ module Prompts
   end
 
   def message_5(x,y,z)
+    # Variable names
     "You have guessed #{x} of the correct elements
      with #{y} in the correct positions. You've taken
     #{z} guesses"

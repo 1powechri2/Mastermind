@@ -19,11 +19,14 @@ class Mastermind
   end
 
   def user_guess_to_array(guess)
+    # This might not need to be it's own method
     guess.split("")
   end
 
   def compare_elements(answer)
+    # Unclear variable name
     counter = 0
+    # Why .uniq?
     answer.uniq.each do |color|
       if test_array.include?(color)
         counter += 1
@@ -33,6 +36,7 @@ class Mastermind
   end
 
   def compare_positions(answer)
+    # Unclear variable name
     counter = 0
     answer.each_index do |i|
       if test_array[i] == answer[i]

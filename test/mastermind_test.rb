@@ -1,7 +1,11 @@
 require './test/test_helper'
-# require './lib/mastermind_for_testing'
+require './lib/mastermind_for_testing'
 
 class MastermindTest < Minitest::Test
+# You could DRY up your test suite a bit with a setup method
+#   def setup
+#     @mastermind = Mastermind.new
+#   end
 
   def test_mastermind_exists
     mastermind = Mastermind.new
